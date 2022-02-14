@@ -9,18 +9,24 @@ def url_to_image(url):
     return image
 
 def detect_faces(photograph):
-    # Use pretrained model
-    classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    # perform face detection
-    bboxes = classifier.detectMultiScale(photograph)
-    # bboxes will be numpy array if a face is found, or a tuple if no face is found
-    if not type(bboxes) is tuple:
-        print("face found")
-    else: 
-        print("face not found")
+    if photograph.any():
+        # Use pretrained model
+        classifier = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+        # perform face detection
+        bboxes = classifier.detectMultiScale(photograph)
+        # bboxes will be numpy array if a face is found, or a tuple if no face is found
+        if not type(bboxes) is tuple:
+            print("face found")
+            return True
+        else:
+            print("face not found")
+            return False
+    print("Image not retrieved from URL")
+    return False
     
 def main():
     url = input()
-    detect_faces(url_to_image(url))
+    image = url_to_image(url)
+    detect_faces(image)
 
 main()
